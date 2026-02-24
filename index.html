@@ -1,1 +1,892 @@
-<!DOCTYPE html><html><head><title>Отель</title></head><body><h1>Работает!</h1></body></html>
+git add index.html
+git commit -m "Настоящий макет отеля"
+git push -f origin main
+cat > index.html
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet Transaction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Sofia Sans Condensed (основной шрифт в макете) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sofia: ['"Sofia Sans Condensed"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            'bg-main': '#05060D',
+            'bg-sidebar': '#0C1020',
+            'bg-card': '#14172A',
+            'bg-card-soft': 'rgba(255,255,255,0.02)',
+            'accent': '#3D5DDF',
+            'accent-soft': 'rgba(61,93,223,0.2)',
+            'accent-muted': '#6E87FF',
+            'text-main': '#FFFFFF',
+            'text-muted': '#A5A7AE',
+            'text-subtle': 'rgba(255,255,255,0.6)',
+            'border-soft': 'rgba(255,255,255,0.06)',
+            'border-strong': '#6E87FF',
+            'pill-bg': 'rgba(255,255,255,0.1)',
+          },
+          boxShadow: {
+            card: '0 24px 60px rgba(0,0,0,0.55)',
+          },
+          borderRadius: {
+            card: '24px',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: "Sofia Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1B2340 0, #05060D 45%, #05060D 100%);
+    }
+  </style>
+</head>
+<body class="h-full text-text-main">
+  <div class="min-h-screen flex bg-bg-main text-text-main">
+
+    <!-- Sidebar -->
+    <aside
+      class="hidden lg:flex lg:flex-col lg:w-72 xl:w-80 bg-bg-sidebar/95 backdrop-blur-xl border-r border-border-soft/70 shadow-card">
+      <!-- Logo / header -->
+      <div class="flex items-center justify-between px-8 py-6 border-b border-border-soft">
+        <div class="flex items-center gap-3">
+          <!-- Simple logo mark approximating LOGO component -->
+          <div
+            class="w-9 h-9 rounded-xl bg-accent flex items-center justify-center shadow-[0_0_0_4px_rgba(61,93,223,0.35)]">
+            <span class="text-xs font-semibold tracking-[0.18em] uppercase">AP</span>
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="text-[16px] font-semibold tracking-[0.28em] uppercase">
+              ADMIN PANEL
+            </span>
+            <span class="text-[11px] leading-[1.2] text-text-muted tracking-[0.18em] uppercase">
+              wallet control
+            </span>
+          </div>
+        </div>
+        <!-- Collapse icon placeholder -->
+        <button
+          class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border-soft/60 text-text-muted hover:text-text-main hover:border-accent-soft hover:bg-accent-soft/30 transition">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none">
+            <path d="M8 5L12 10L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Sidebar navigation -->
+      <div class="flex-1 overflow-y-auto px-4 pt-4 pb-8">
+        <!-- Country selector (Selector / L (48) with Arsenal/all casinos) -->
+        <div class="mb-6">
+          <button
+            class="w-full flex items-center justify-between px-4 h-12 rounded-[8px] bg-bg-card-soft border border-border-soft text-[14px] font-semibold tracking-[0.18em] uppercase text-text-main hover:border-accent hover:bg-accent-soft/25 transition">
+            <span>all casinos</span>
+            <svg class="w-4 h-4 text-text-subtle" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Admin menu group -->
+        <div class="space-y-3">
+          <!-- Section label -->
+          <div class="px-3 text-[11px] tracking-[0.18em] uppercase text-text-muted">
+            admin menu
+          </div>
+
+          <!-- Item: Revenue (default) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:bg-bg-card-soft hover:text-text-main hover:border-border-soft transition">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft">
+              <!-- Revenue icon -->
+              <svg class="w-4.5 h-4.5 text-accent" viewBox="0 0 24 24" fill="none">
+                <path d="M4 19V10M10 19V5M16 19V12M20 19V8" stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Revenue</span>
+          </button>
+
+          <!-- Item: Users (default) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:bg-bg-card-soft hover:text-text-main hover:border-border-soft transition">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft">
+              <!-- Users icon -->
+              <svg class="w-4.5 h-4.5 text-accent" viewBox="0 0 24 24" fill="none">
+                <path d="M16 21V19C16 16.79 14.21 15 12 15H7C4.79 15 3 16.79 3 19V21"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M10 11C11.657 11 13 9.657 13 8C13 6.343 11.657 5 10 5C8.343 5 7 6.343 7 8C7 9.657 8.343 11 10 11Z"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Users</span>
+          </button>
+
+          <!-- Item: Transactions (default) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:bg-bg-card-soft hover:text-text-main hover:border-border-soft transition">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft">
+              <!-- Transactions icon -->
+              <svg class="w-4.5 h-4.5 text-accent" viewBox="0 0 24 24" fill="none">
+                <path d="M5 5H19V9H5V5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M5 15H19V19H5V15Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Transitions</span>
+          </button>
+
+          <!-- Item: Total funds (ACTIVE) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-border-strong bg-accent-soft text-[14px] font-semibold tracking-[0.18em] uppercase text-text-main shadow-[0_0_0_1px_rgba(110,135,255,0.6)]">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-accent text-text-main">
+              <!-- Wallet icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <path d="M4 7.5C4 6.119 5.119 5 6.5 5H17C18.105 5 19 5.895 19 7V8"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <rect x="4" y="7.5" width="16" height="11.5" rx="2.5"
+                      stroke="currentColor" stroke-width="1.6"/>
+                <path d="M16.5 13.5H17.5" stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>wallet transaction</span>
+          </button>
+
+          <!-- Item: Manage (disabled) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-muted/40 cursor-not-allowed">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft/60 text-text-muted/40">
+              <!-- Manage icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span>MANAGE</span>
+          </button>
+
+          <!-- Item: CRM (disabled) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-muted/40 cursor-not-allowed">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft/60 text-text-muted/40">
+              <!-- CRM icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="16" height="6" rx="1.5" stroke="currentColor"
+                      stroke-width="1.6"/>
+                <rect x="4" y="13" width="8" height="6" rx="1.5" stroke="currentColor"
+                      stroke-width="1.6"/>
+                <rect x="14" y="13" width="6" height="6" rx="1.5" stroke="currentColor"
+                      stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span>CRM</span>
+          </button>
+
+          <!-- Separator line -->
+          <div class="my-3 mx-4 border-t border-border-soft"></div>
+
+          <!-- Item: Team (disabled) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-muted/40 cursor-not-allowed">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft/60 text-text-muted/40">
+              <!-- Team icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <path d="M6 21V19C6 16.79 7.79 15 10 15H14C16.21 15 18 16.79 18 19V21"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M12 12C13.657 12 15 10.657 15 9C15 7.343 13.657 6 12 6C10.343 6 9 7.343 9 9C9 10.657 10.343 12 12 12Z"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>TEAM</span>
+          </button>
+
+          <!-- Item: Billing (disabled) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-muted/40 cursor-not-allowed">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft/60 text-text-muted/40">
+              <!-- Billing icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor"
+                      stroke-width="1.6"/>
+                <path d="M8 10H16" stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>Billing</span>
+          </button>
+
+          <!-- Item: Support (disabled) -->
+          <button
+            class="w-full flex items-center gap-3 px-4 h-11 rounded-[8px] border border-transparent text-[14px] font-semibold tracking-[0.18em] uppercase text-text-muted/40 cursor-not-allowed">
+            <span
+              class="inline-flex items-center justify-center w-9 h-9 rounded-[10px] bg-bg-card-soft border border-border-soft/60 text-text-muted/40">
+              <!-- Support icon -->
+              <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                <path d="M12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20C16.418 20 20 16.418 20 12"
+                      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Support</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar bottom help -->
+      <div class="px-6 py-5 border-t border-border-soft/70">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-[12px] bg-pill-bg flex items-center justify-center text-accent">
+            <!-- Question icon -->
+            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+              <path d="M12 18.25V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 14C12 11.5 15 11.75 15 9.25C15 7.86929 13.8807 6.75 12.5 6.75C11.1193 6.75 10 7.86929 10 9.25"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[13px] font-semibold tracking-[0.18em] uppercase">
+              Need help?
+            </span>
+            <span class="text-[11px] leading-[1.2] text-text-muted tracking-[0.1em]">
+              Contact our support team
+            </span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main area -->
+    <div class="flex-1 flex flex-col">
+
+      <!-- Top bar (mobile + desktop header) -->
+      <header
+        class="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 border-b border-border-soft bg-bg-sidebar/80 backdrop-blur-xl">
+        <!-- Left: breadcrumbs + title (desktop) -->
+        <div class="flex flex-col gap-1">
+          <nav class="hidden md:flex items-center text-[12px] text-text-muted gap-1">
+            <button class="inline-flex items-center gap-1 hover:text-text-main transition">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none">
+                <path d="M3 10L10 3L17 10" stroke="currentColor" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 10V16H13V10" stroke="currentColor" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Home</span>
+            </button>
+            <span class="text-text-muted/60">/</span>
+            <button class="inline-flex items-center gap-1 hover:text-text-main transition">
+              <span>Revenue</span>
+            </button>
+            <span class="text-text-muted/60">/</span>
+            <span class="text-text-subtle">wallet transaction</span>
+          </nav>
+
+          <!-- H2/32 Bold -->
+          <div class="flex items-center gap-2">
+            <h1
+              class="text-[28px] sm:text-[32px] leading-[1.2] font-bold tracking-[0.24em] uppercase">
+              wallet transaction
+            </h1>
+            <!-- Mini badge -->
+            <span
+              class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-border-soft/80 bg-pill-bg text-[11px] font-semibold tracking-[0.18em] uppercase text-text-subtle">
+              live
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: actions -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Refresh button -->
+          <button
+            class="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full border border-border-soft bg-bg-card-soft text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/30 transition"
+            aria-label="Refresh">
+            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4V9H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M20 20V15H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M5 19C6.67392 20.6739 8.90761 21.6 11.2426 21.6C15.9124 21.6 19.7 17.8124 19.7 13.1426"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M19 5C17.3261 3.32608 15.0924 2.4 12.7574 2.4C8.08761 2.4 4.3 6.18761 4.3 10.8574"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <!-- Primary "New" button -->
+          <button
+            class="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-[999px] bg-accent text-[14px] font-semibold tracking-[0.18em] uppercase text-white hover:bg-accent-muted transition shadow-[0_18px_35px_rgba(61,93,223,0.45)]">
+            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5V19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M5 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+            <span>New</span>
+          </button>
+
+          <!-- Avatar -->
+          <button
+            class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-pill-bg border border-border-soft text-[13px] font-semibold uppercase tracking-[0.15em] hover:border-accent hover:bg-accent-soft/30 transition">
+            JP
+          </button>
+
+          <!-- Mobile menu toggle -->
+          <button
+            id="mobile-menu-toggle"
+            class="inline-flex lg:hidden items-center justify-center w-9 h-9 rounded-full border border-border-soft text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/30 transition"
+            aria-label="Open menu">
+            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7H20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M4 12H20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M4 17H14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main content -->
+      <main class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
+        <div class="max-w-6xl mx-auto space-y-8 lg:space-y-10">
+
+          <!-- Filters row -->
+          <section
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
+            <!-- Search -->
+            <div class="w-full md:max-w-sm">
+              <label
+                class="block text-[12px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                Search
+              </label>
+              <div
+                class="flex items-center gap-2 px-4 h-11 rounded-[12px] bg-bg-card-soft border border-border-soft focus-within:border-accent-soft focus-within:ring-1 focus-within:ring-accent-soft/90 transition">
+                <svg class="w-4.5 h-4.5 text-text-muted" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M16 16L20 20" stroke="currentColor" stroke-width="1.6"
+                        stroke-linecap="round"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search transaction, user, ID..."
+                  class="flex-1 bg-transparent text-[14px] leading-none placeholder:text-text-muted/80 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Selectors -->
+            <div class="flex flex-wrap items-end gap-3 md:justify-end">
+              <!-- Status selector -->
+              <div class="min-w-[150px]">
+                <label
+                  class="block text-[12px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                  Status
+                </label>
+                <button
+                  class="w-full flex items-center justify-between px-3.5 h-11 rounded-[12px] bg-bg-card-soft border border-border-soft text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:border-accent hover:bg-accent-soft/25 transition">
+                  <span>All statuses</span>
+                  <svg class="w-4 h-4 text-text-subtle" viewBox="0 0 20 20" fill="none">
+                    <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Method selector -->
+              <div class="min-w-[150px]">
+                <label
+                  class="block text-[12px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                  Method
+                </label>
+                <button
+                  class="w-full flex items-center justify-between px-3.5 h-11 rounded-[12px] bg-bg-card-soft border border-border-soft text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:border-accent hover:bg-accent-soft/25 transition">
+                  <span>All methods</span>
+                  <svg class="w-4 h-4 text-text-subtle" viewBox="0 0 20 20" fill="none">
+                    <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Date range selector -->
+              <div class="min-w-[180px]">
+                <label
+                  class="block text-[12px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                  Period
+                </label>
+                <button
+                  class="w-full flex items-center justify-between px-3.5 h-11 rounded-[12px] bg-bg-card-soft border border-border-soft text-[14px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:border-accent hover:bg-accent-soft/25 transition">
+                  <span>Last 30 days</span>
+                  <svg class="w-4 h-4 text-text-subtle" viewBox="0 0 20 20" fill="none">
+                    <path d="M7 3V5" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round"/>
+                    <path d="M13 3V5" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round"/>
+                    <rect x="4" y="5" width="12" height="11" rx="2" stroke="currentColor"
+                          stroke-width="1.5"/>
+                    <path d="M7 9H13" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Content grid: table + widget -->
+          <section
+            class="grid grid-cols-1 xl:grid-cols-[minmax(0,2.4fr)_minmax(0,1.4fr)] gap-6 lg:gap-8 items-start">
+            <!-- Transactions card -->
+            <article
+              class="bg-bg-card/90 rounded-card border border-border-soft shadow-card overflow-hidden">
+              <!-- Card header -->
+              <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-border-soft">
+                <div>
+                  <div
+                    class="text-[14px] sm:text-[16px] font-bold tracking-[0.18em] uppercase leading-[1.25]">
+                    wallet transaction
+                  </div>
+                  <p class="text-[12px] leading-[1.4] text-text-muted mt-1">
+                    Detailed list of all in&nbsp;and out cash operations in your wallet.
+                  </p>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-3">
+                  <!-- Outline button -->
+                  <button
+                    class="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full border border-border-strong text-[12px] font-semibold tracking-[0.18em] uppercase text-accent hover:bg-accent-soft/30 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 5H19V9H5V5Z" stroke="currentColor" stroke-width="1.6"
+                            stroke-linejoin="round"/>
+                      <path d="M5 15H13" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round"/>
+                    </svg>
+                    <span>Export</span>
+                  </button>
+                  <!-- Icon square -->
+                  <button
+                    class="inline-flex items-center justify-center h-10 w-10 rounded-[12px] border border-border-soft bg-bg-card-soft text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/30 transition"
+                    aria-label="Refresh table">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 4V9H9" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M20 20V15H15" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 19C6.67392 20.6739 8.90761 21.6 11.2426 21.6C15.9124 21.6 19.7 17.8124 19.7 13.1426"
+                            stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round"/>
+                      <path d="M19 5C17.3261 3.32608 15.0924 2.4 12.7574 2.4C8.08761 2.4 4.3 6.18761 4.3 10.8574"
+                            stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[640px] border-separate border-spacing-0 text-[13px]">
+                  <thead>
+                  <tr class="bg-bg-card-soft text-text-muted">
+                    <th
+                      class="text-left font-semibold uppercase tracking-[0.16em] text-[11px] px-6 py-3 border-b border-border-soft/70">
+                      ID
+                    </th>
+                    <th
+                      class="text-left font-semibold uppercase tracking-[0.16em] text-[11px] px-4 py-3 border-b border-border-soft/70">
+                      User
+                    </th>
+                    <th
+                      class="text-left font-semibold uppercase tracking-[0.16em] text-[11px] px-4 py-3 border-b border-border-soft/70">
+                      Method
+                    </th>
+                    <th
+                      class="text-right font-semibold uppercase tracking-[0.16em] text-[11px] px-4 py-3 border-b border-border-soft/70">
+                      Amount
+                    </th>
+                    <th
+                      class="text-left font-semibold uppercase tracking-[0.16em] text-[11px] px-4 py-3 border-b border-border-soft/70">
+                      Status
+                    </th>
+                    <th
+                      class="text-right font-semibold uppercase tracking-[0.16em] text-[11px] px-6 py-3 border-b border-border-soft/70">
+                      Date
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <!-- Row 1 -->
+                  <tr class="border-b border-border-soft/60 hover:bg-bg-card-soft/60 transition">
+                    <td class="px-6 py-3.5 whitespace-nowrap text-[13px] text-text-subtle">
+                      #WT-9841
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-pill-bg text-[11px] font-semibold uppercase tracking-[0.16em]">
+                          AR
+                        </span>
+                        <div class="leading-tight">
+                          <div class="text-[13px] font-semibold text-text-main">Arsenal Games</div>
+                          <div class="text-[11px] text-text-muted">ID&nbsp;10294</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-text-subtle">
+                      Card •••• 1452
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-right font-semibold text-emerald-400">
+                      + 4 200.00 $
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-300 border border-emerald-500/50">
+                        Success
+                      </span>
+                    </td>
+                    <td class="px-6 py-3.5 whitespace-nowrap text-right text-text-muted">
+                      09 Apr 2024, 12:31
+                    </td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr class="border-b border-border-soft/60 hover:bg-bg-card-soft/60 transition">
+                    <td class="px-6 py-3.5 whitespace-nowrap text-[13px] text-text-subtle">
+                      #WT-9837
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-pill-bg text-[11px] font-semibold uppercase tracking-[0.16em]">
+                          LV
+                        </span>
+                        <div class="leading-tight">
+                          <div class="text-[13px] font-semibold text-text-main">Lucky Vegas</div>
+                          <div class="text-[11px] text-text-muted">ID&nbsp;10082</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-text-subtle">
+                      Skrill
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-right font-semibold text-rose-300">
+                      − 1 200.00 $
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-300 border border-amber-400/40">
+                        Pending
+                      </span>
+                    </td>
+                    <td class="px-6 py-3.5 whitespace-nowrap text-right text-text-muted">
+                      09 Apr 2024, 11:02
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr class="border-b border-border-soft/60 hover:bg-bg-card-soft/60 transition">
+                    <td class="px-6 py-3.5 whitespace-nowrap text-[13px] text-text-subtle">
+                      #WT-9829
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-pill-bg text-[11px] font-semibold uppercase tracking-[0.16em]">
+                          CS
+                        </span>
+                        <div class="leading-tight">
+                          <div class="text-[13px] font-semibold text-text-main">Casino Star</div>
+                          <div class="text-[11px] text-text-muted">ID&nbsp;9941</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-text-subtle">
+                      Wire transfer
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-right font-semibold text-emerald-400">
+                      + 9 700.00 $
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-300 border border-emerald-500/50">
+                        Success
+                      </span>
+                    </td>
+                    <td class="px-6 py-3.5 whitespace-nowrap text-right text-text-muted">
+                      08 Apr 2024, 18:17
+                    </td>
+                  </tr>
+
+                  <!-- Row 4 -->
+                  <tr class="border-b border-border-soft/60 hover:bg-bg-card-soft/60 transition">
+                    <td class="px-6 py-3.5 whitespace-nowrap text-[13px] text-text-subtle">
+                      #WT-9813
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-pill-bg text-[11px] font-semibold uppercase tracking-[0.16em]">
+                          JC
+                        </span>
+                        <div class="leading-tight">
+                          <div class="text-[13px] font-semibold text-text-main">Jackpot City</div>
+                          <div class="text-[11px] text-text-muted">ID&nbsp;9780</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-text-subtle">
+                      Crypto (USDT)
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-right font-semibold text-emerald-400">
+                      + 2 340.00 $
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-300 border border-emerald-500/50">
+                        Success
+                      </span>
+                    </td>
+                    <td class="px-6 py-3.5 whitespace-nowrap text-right text-text-muted">
+                      08 Apr 2024, 10:44
+                    </td>
+                  </tr>
+
+                  <!-- Row 5 -->
+                  <tr class="hover:bg-bg-card-soft/60 transition">
+                    <td class="px-6 py-3.5 whitespace-nowrap text-[13px] text-text-subtle">
+                      #WT-9795
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-pill-bg text-[11px] font-semibold uppercase tracking-[0.16em]">
+                          RW
+                        </span>
+                        <div class="leading-tight">
+                          <div class="text-[13px] font-semibold text-text-main">Royal Win</div>
+                          <div class="text-[11px] text-text-muted">ID&nbsp;9721</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-text-subtle">
+                      PayPal
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap text-right font-semibold text-rose-300">
+                      − 560.00 $
+                    </td>
+                    <td class="px-4 py-3.5 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-rose-500/20 text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-300 border border-rose-500/50">
+                        Failed
+                      </span>
+                    </td>
+                    <td class="px-6 py-3.5 whitespace-nowrap text-right text-text-muted">
+                      07 Apr 2024, 19:03
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination / footer -->
+              <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-border-soft/80 bg-bg-card-soft">
+                <p class="text-[12px] text-text-muted">
+                  Showing <span class="text-text-main font-semibold">1&nbsp;–&nbsp;5</span> of
+                  <span class="text-text-main font-semibold">48</span> transactions
+                </p>
+                <div class="flex items-center gap-1">
+                  <button
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border-soft text-text-muted hover:text-text-main hover:border-accent hover:bg-accent-soft/25 transition"
+                    aria-label="Previous page">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M12 5L8 10L12 15" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent text-[12px] font-semibold tracking-[0.16em]">
+                    1
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border-soft text-[12px] font-semibold tracking-[0.16em] text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/25 transition">
+                    2
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border-soft text-[12px] font-semibold tracking-[0.16em] text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/25 transition">
+                    3
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border-soft text-text-muted hover:text-text-main hover:border-accent hover:bg-accent-soft/25 transition"
+                    aria-label="Next page">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M8 5L12 10L8 15" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Right widget: Total funds / placeholder illustration -->
+            <aside
+              class="bg-bg-card/90 rounded-card border border-border-soft shadow-card flex flex-col h-full">
+              <div class="px-6 pt-5 pb-4 border-b border-border-soft">
+                <div
+                  class="text-[16px] font-bold tracking-[0.18em] uppercase leading-[1.25] mb-1">
+                  total funds
+                </div>
+                <p class="text-[12px] leading-[1.4] text-text-muted">
+                  Summary of wallet balance, bonuses and available payout.
+                </p>
+              </div>
+
+              <div class="flex-1 flex flex-col gap-6 px-6 py-5">
+                <!-- Illustration placeholder approximating Illustration / Placeholder -->
+                <div
+                  class="flex flex-col items-center justify-center gap-4 h-56 rounded-[24px] bg-gradient-to-b from-[#47415F] via-[#353052] to-[#242038] relative overflow-hidden">
+                  <div
+                    class="absolute w-[150px] h-[106px] rounded-[32px] border-2 border-[#534E71] bg-[#47415F]/60 blur-[1px]">
+                  </div>
+                  <div
+                    class="relative w-[74px] h-[64px] rounded-2xl bg-[#595270] flex items-center justify-center shadow-[0_16px_32px_rgba(0,0,0,0.4)]">
+                    <div
+                      class="w-[42px] h-[42px] rounded-full border-[2px] border-[#48425E] flex items-center justify-center bg-[#14121F]">
+                      <svg class="w-6 h-6 text-emerald-300" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 10L11 15L18 7" stroke="currentColor" stroke-width="1.8"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="relative text-center">
+                    <div
+                      class="text-[14px] font-semibold tracking-[0.18em] uppercase text-text-main">
+                      Secure wallet
+                    </div>
+                    <div class="text-[11px] text-text-subtle">
+                      AI risk scoring &amp; anomaly detection enabled
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Numbers -->
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex flex-col gap-0.5">
+                      <span
+                        class="text-[11px] font-semibold tracking-[0.18em] uppercase text-text-muted">
+                        Current balance
+                      </span>
+                      <span class="text-[20px] font-semibold leading-[1.2]">
+                        34 280.00 $
+                      </span>
+                    </div>
+                    <span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-300 border border-emerald-500/40">
+                      + 12.4% <span class="hidden sm:inline">today</span>
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3 text-[12px]">
+                    <div class="flex flex-col gap-1">
+                      <span
+                        class="font-semibold tracking-[0.18em] uppercase text-text-muted">
+                        Bonuses
+                      </span>
+                      <span class="text-[14px] font-semibold">4 120.00 $</span>
+                      <span class="text-[11px] text-text-subtle">Active promo funds</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <span
+                        class="font-semibold tracking-[0.18em] uppercase text-text-muted">
+                        Available payout
+                      </span>
+                      <span class="text-[14px] font-semibold">19 940.00 $</span>
+                      <span class="text-[11px] text-text-subtle">Without wagering limits</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CTA buttons -->
+                <div class="mt-auto flex flex-wrap gap-2">
+                  <button
+                    class="inline-flex flex-1 items-center justify-center gap-1.5 h-10 px-3 rounded-full bg-accent text-[13px] font-semibold tracking-[0.18em] uppercase text-white hover:bg-accent-muted transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 5V19" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 12H19" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>top up</span>
+                  </button>
+                  <button
+                    class="inline-flex flex-1 items-center justify-center gap-1.5 h-10 px-3 rounded-full border border-border-soft text-[13px] font-semibold tracking-[0.18em] uppercase text-text-subtle hover:text-text-main hover:border-accent hover:bg-accent-soft/30 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M9 8L5 12L9 16" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>withdraw</span>
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Basic interactivity -->
+  <script>
+    // Mobile menu open/close: simple example that toggles a class on body
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', () => {
+        document.body.classList.toggle('show-mobile-sidebar');
+        // In реальном проекте сюда можно добавить offcanvas-меню
+      });
+    }
+  </script>
+</body>
+</html>
+git add index.html
+git commit -m "Настоящий макет отеля из Figma"
+git push -f origin main
+# Посмотрите, что теперь в файле
+cat index.html
+git add index.html
+git commit -m "Настоящий макет отеля из Figma"
+git push -f origin main
