@@ -1,326 +1,371 @@
-<template>
-  <div class="login-page">
-    <div class="login-frame">
-      <header class="login-logo">
-        <div class="login-logo-icon">
-          <!-- Замените содержимое на экспортированный SVG из Figma -->
-          <svg
-            viewBox="0 0 120 20"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect x="0" y="4" width="24" height="12" rx="6" fill="#516EFF" />
-            <rect x="8" y="4" width="24" height="12" rx="6" fill="#647EFF" />
-          </svg>
-        </div>
-        <span class="login-logo-text">ADMIN PANEL</span>
-      </header>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <h1 class="login-title">LOG IN</h1>
+    <!-- Шрифт Sofia Sans Condensed, как в макете -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
-      <form class="login-form" @submit.prevent="onSubmit">
-        <div class="field">
-          <label class="field-label">
-            <span class="field-label-text">EMAIL</span>
-            <span class="field-asterisk">*</span>
-          </label>
-          <div class="field-input-wrapper">
-            <input
-              v-model="email"
-              type="email"
-              class="field-input"
-              required
-            />
-          </div>
-        </div>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-        <div class="field">
-          <label class="field-label">
-            <span class="field-label-text">Password</span>
-            <span class="field-asterisk">*</span>
-          </label>
-          <div class="field-input-wrapper field-input-wrapper--password">
-            <input
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              class="field-input"
-              required
-            />
-            <button
-              type="button"
-              class="password-toggle"
-              @click="showPassword = !showPassword"
-              aria-label="Toggle password visibility"
-            >
-              <!-- Иконка Eye close (упрощённая) -->
+    <style>
+      :root {
+        --page-bg: #221c38;
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --card-width: 335px;
+
+        --text-primary: #ffffff;
+        --text-muted: rgba(255, 255, 255, 0.4);
+        --text-logo: rgba(255, 255, 255, 0.6);
+        --accent: #3d5ddf;
+        --danger: #e83337;
+
+        --border-soft: rgba(255, 255, 255, 0.03);
+
+        --radius-card: 12px;
+        --radius-input: 8px;
+        --radius-button: 8px;
+
+        --font-family-main: "Sofia Sans Condensed", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+        --h4-font-size: 24px;
+        --h4-line-height: 1.2;
+        --normal-font-size: 16px;
+        --normal-line-height: 1.2;
+        --mini-font-size: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: var(--page-bg);
+        font-family: var(--font-family-main);
+      }
+
+      /* Страница 1440×812, центрируем карточку как в макете */
+      .login-page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--page-bg);
+      }
+
+      .login-frame {
+        width: var(--card-width);
+        background-color: var(--card-bg);
+        border-radius: var(--radius-card);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      /* LOGO */
+      .login-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 45px;
+        position: relative;
+      }
+
+      .login-logo-icon {
+        position: absolute;
+        left: 12px;
+        top: 8px;
+        width: 106px;
+        height: 19.46px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .login-logo-icon svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .login-logo-text {
+        position: absolute;
+        left: 38px;
+        top: 28px;
+        font-weight: 700;
+        font-size: 10px;
+        line-height: 1.2;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text-logo);
+      }
+
+      /* Заголовок LOG IN */
+      .login-title {
+        align-self: flex-start;
+        margin: 0;
+        font-weight: 700;
+        font-size: var(--h4-font-size);
+        line-height: var(--h4-line-height);
+        text-transform: uppercase;
+        color: var(--text-primary);
+      }
+
+      /* Форма */
+      .login-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .field-label {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .field-label-text {
+        font-weight: 700;
+        font-size: var(--normal-font-size);
+        line-height: var(--normal-line-height);
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .field-asterisk {
+        font-weight: 700;
+        font-size: var(--mini-font-size);
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: var(--danger);
+      }
+
+      .field-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 0 12px;
+        height: 48px;
+        border-radius: var(--radius-input);
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-soft);
+      }
+
+      .field-input-wrapper--password {
+        justify-content: space-between;
+      }
+
+      .field-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--text-primary);
+        font-family: var(--font-family-main);
+        font-size: var(--normal-font-size);
+        line-height: var(--normal-line-height);
+      }
+
+      .field-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .password-toggle {
+        width: 20px;
+        height: 20px;
+        border: none;
+        padding: 0;
+        margin-left: 8px;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .password-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .login-button {
+        margin-top: 4px;
+        width: 100%;
+        height: 40px;
+        border-radius: var(--radius-button);
+        border: none;
+        background-color: var(--accent);
+        color: var(--text-primary);
+        font-family: var(--font-family-main);
+        font-weight: 700;
+        font-size: var(--normal-font-size);
+        line-height: 1.1;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .login-button:hover {
+        filter: brightness(1.05);
+      }
+
+      .login-button:active {
+        filter: brightness(0.97);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="login-page">
+        <div class="login-frame">
+          <header class="login-logo">
+            <div class="login-logo-icon">
+              <!-- Здесь можно заменить на экспортированный из Figma SVG лого -->
               <svg
-                viewBox="0 0 24 24"
+                viewBox="0 0 120 20"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
-                <path
-                  d="M3 12C4.5 8.5 7.5 6 12 6c4.5 0 7.5 2.5 9 6-1.5 3.5-4.5 6-9 6-4.5 0-7.5-2.5-9-6z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
+                <rect
+                  x="0"
+                  y="4"
+                  width="24"
+                  height="12"
+                  rx="6"
+                  fill="#516EFF"
                 />
-                <path
-                  d="M9 9l6 6M15 9l-6 6"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                <rect
+                  x="8"
+                  y="4"
+                  width="24"
+                  height="12"
+                  rx="6"
+                  fill="#647EFF"
                 />
               </svg>
+            </div>
+            <span class="login-logo-text">ADMIN PANEL</span>
+          </header>
+
+          <h1 class="login-title">LOG IN</h1>
+
+          <form class="login-form" @submit.prevent="onSubmit">
+            <div class="field">
+              <label class="field-label">
+                <span class="field-label-text">EMAIL</span>
+                <span class="field-asterisk">*</span>
+              </label>
+              <div class="field-input-wrapper">
+                <input
+                  v-model="email"
+                  type="email"
+                  class="field-input"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label">
+                <span class="field-label-text">Password</span>
+                <span class="field-asterisk">*</span>
+              </label>
+              <div class="field-input-wrapper field-input-wrapper--password">
+                <input
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  class="field-input"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  @click="togglePassword"
+                  aria-label="Toggle password visibility"
+                >
+                  <!-- Иконка Eye close (упрощённая) -->
+                  <svg
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 12C4.5 8.5 7.5 6 12 6c4.5 0 7.5 2.5 9 6-1.5 3.5-4.5 6-9 6-4.5 0-7.5-2.5-9-6z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="M9 9l6 6M15 9l-6 6"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="login-button">
+              Login
             </button>
-          </div>
+          </form>
         </div>
-
-        <button type="submit" class="login-button">
-          Login
-        </button>
-      </form>
+      </div>
     </div>
-  </div>
-</template>
 
-<script setup>
-import { ref } from "vue";
+    <script>
+      const { createApp, ref } = Vue;
 
-const email = ref("");
-const password = ref("");
-const showPassword = ref(false);
+      createApp({
+        setup() {
+          const email = ref("");
+          const password = ref("");
+          const showPassword = ref(false);
 
-const onSubmit = () => {
-  // сюда можно добавить реальную логику логина
-  console.log("login", { email: email.value, password: password.value });
-};
-</script>
+          const togglePassword = () => {
+            showPassword.value = !showPassword.value;
+          };
 
-<style scoped>
-/* Шрифт как в Figma: Sofia Sans Condensed */
-@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@400;700&display=swap");
+          const onSubmit = () => {
+            console.log("login", {
+              email: email.value,
+              password: password.value,
+            });
+          };
 
-/* Цветовые и типографические токены из макета */
-:root {
-  --page-bg: #221c38;
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-width: 335px;
-
-  --text-primary: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.4);
-  --text-logo: rgba(255, 255, 255, 0.6);
-  --accent: #3d5ddf;
-  --danger: #e83337;
-
-  --border-soft: rgba(255, 255, 255, 0.03);
-  --border-strong: rgba(255, 255, 255, 0.4);
-
-  --radius-card: 12px;
-  --radius-input: 8px;
-  --radius-button: 8px;
-
-  --font-family-main: "Sofia Sans Condensed", system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --h4-font-size: 24px;
-  --h4-line-height: 1.2;
-  --normal-font-size: 16px;
-  --normal-line-height: 1.2;
-  --mini-font-size: 12px;
-}
-
-/* Страница 1440×812, центрируем карточку как в макете */
-.login-page {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--page-bg);
-  font-family: var(--font-family-main);
-  box-sizing: border-box;
-}
-
-.login-frame {
-  width: var(--card-width);
-  background-color: var(--card-bg);
-  border-radius: var(--radius-card);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-/* LOGO */
-.login-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 130px;
-  height: 45px;
-  position: relative;
-}
-
-.login-logo-icon {
-  position: absolute;
-  left: 12px;
-  top: 8px;
-  width: 106px;
-  height: 19.46px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.login-logo-icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.login-logo-text {
-  position: absolute;
-  left: 38px;
-  top: 28px;
-  font-family: var(--font-family-main);
-  font-weight: 700;
-  font-size: 10px;
-  line-height: 1.2;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-logo);
-}
-
-/* Заголовок LOG IN (H4/24 bold) */
-.login-title {
-  align-self: flex-start;
-  margin: 0;
-  font-weight: 700;
-  font-size: var(--h4-font-size);
-  line-height: var(--h4-line-height);
-  text-transform: uppercase;
-  color: var(--text-primary);
-}
-
-/* Форма */
-.login-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Поле ввода */
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.field-label {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.field-label-text {
-  font-weight: 700;
-  font-size: var(--normal-font-size);
-  line-height: var(--normal-line-height);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.field-asterisk {
-  font-weight: 700;
-  font-size: var(--mini-font-size);
-  line-height: 1.2;
-  text-transform: uppercase;
-  color: var(--danger);
-}
-
-/* Контейнер инпута как в Frame 427322798 */
-.field-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 0 12px;
-  height: 48px;
-  border-radius: var(--radius-input);
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-soft);
-  box-sizing: border-box;
-}
-
-.field-input-wrapper--password {
-  justify-content: space-between;
-}
-
-/* Сам инпут */
-.field-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--text-primary);
-  font-family: var(--font-family-main);
-  font-size: var(--normal-font-size);
-  line-height: var(--normal-line-height);
-  text-transform: none;
-}
-
-.field-input::placeholder {
-  color: var(--text-muted);
-}
-
-/* Кнопка-глаз */
-.password-toggle {
-  width: 20px;
-  height: 20px;
-  border: none;
-  padding: 0;
-  margin-left: 8px;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.password-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Кнопка Login (Buttons / main / M (40) / primary) */
-.login-button {
-  margin-top: 4px;
-  width: 100%;
-  height: 40px;
-  border-radius: var(--radius-button);
-  border: none;
-  background-color: var(--accent);
-  color: var(--text-primary);
-  font-family: var(--font-family-main);
-  font-weight: 700;
-  font-size: var(--normal-font-size);
-  line-height: 1.1;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.login-button:hover {
-  filter: brightness(1.05);
-}
-
-.login-button:active {
-  filter: brightness(0.97);
-}
-</style>
+          return {
+            email,
+            password,
+            showPassword,
+            togglePassword,
+            onSubmit,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
