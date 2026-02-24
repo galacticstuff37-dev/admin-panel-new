@@ -29,7 +29,7 @@
         --border-soft: rgba(255, 255, 255, 0.03);
 
         --radius-card: 12px;
-        --radius-input: 8px;
+        --radius-input: 1px; /* как просил: 1px */
         --radius-button: 8px;
 
         --font-family-main: "Sofia Sans Condensed", system-ui, -apple-system,
@@ -41,7 +41,7 @@
         --input-height: 48px;
 
         --value-size-default: 16px;
-        --value-size-focus: 12px; /* focus: 12px */
+        --value-size-focus: 12px; /* текст при фокусе 12px */
       }
 
       * {
@@ -106,14 +106,13 @@
         gap: 12px;
       }
 
-      /* ===== Input / Main / L (48) + Password / L (48) ===== */
+      /* ===== Inputs (Main / L (48) + Password / L (48)) ===== */
       .input-shell {
         position: relative;
         height: var(--input-height);
-        border-radius: 1px; /* radius должен быть 1px */
+        border-radius: var(--radius-input);
         background-color: var(--card-bg);
         border: 1px solid var(--border-soft);
-        border-radius: 8px;
         padding: 0 12px;
         display: flex;
         align-items: center;
@@ -121,16 +120,20 @@
           box-shadow 120ms ease;
       }
 
+      /* hover 6% */
       .input-shell:hover {
         background-color: rgba(255, 255, 255, 0.06);
       }
 
+      /* focus-бордер как в макете */
       .input-shell:focus-within {
         background-color: var(--card-bg);
         border-color: var(--accent);
         box-shadow: 0 0 0 1px var(--accent) inset;
       }
 
+      /* плавающий лейбл:
+         центр по вертикали, поднимается вверх при фокусе / значении */
       .input-label {
         position: absolute;
         left: 12px;
@@ -180,8 +183,8 @@
         transition: font-size 120ms ease;
       }
 
-      /* focus: текст уменьшить до 12px */
-      .input-shell:focus-within .input-control {
+      /* текст при фокусе = 12px */
+      .input-shell.is-focused .input-control {
         font-size: var(--value-size-focus);
       }
 
@@ -214,7 +217,7 @@
         display: block;
       }
 
-      /* eye button: без подложки, hover только на иконке */
+      /* eye без подложки, hover только на иконке */
       .icon-btn {
         width: 32px;
         height: 32px;
@@ -232,12 +235,12 @@
         width: 20px;
         height: 20px;
         display: block;
-        opacity: 0.8;
+        opacity: 0.8; /* 80% */
         transition: opacity 120ms ease;
       }
 
       .icon-btn:hover .icon-img {
-        opacity: 1;
+        opacity: 1; /* hover 100% */
       }
 
       .login-button {
@@ -283,7 +286,10 @@
             <!-- EMAIL -->
             <div
               class="input-shell"
-              :class="{ 'is-active': emailFocused || email.length > 0 }"
+              :class="{
+                'is-active': emailFocused || email.length > 0,
+                'is-focused': emailFocused
+              }"
             >
               <div class="input-label">
                 <span class="input-label-text">EMAIL</span>
@@ -329,7 +335,10 @@
             <!-- PASSWORD -->
             <div
               class="input-shell"
-              :class="{ 'is-active': passwordFocused || password.length > 0 }"
+              :class="{
+                'is-active': passwordFocused || password.length > 0,
+                'is-focused': passwordFocused
+              }"
             >
               <div class="input-label">
                 <span class="input-label-text">PASSWORD</span>
