@@ -38,7 +38,10 @@
         --h4-font-size: 24px;
         --h4-line-height: 1.2;
 
-        --input-height: 48px; /* фикс 48px как в Figma */
+        --input-height: 48px;
+
+        --value-size-default: 16px;
+        --value-size-focus: 12px; /* focus: 12px */
       }
 
       * {
@@ -71,7 +74,6 @@
         gap: 16px;
       }
 
-      /* header: только логотип */
       .login-logo {
         width: 130px;
         height: 45px;
@@ -108,7 +110,7 @@
       .input-shell {
         position: relative;
         height: var(--input-height);
-        border-radius: var(--radius-input);
+        border-radius: 1px; /* radius должен быть 1px */
         background-color: var(--card-bg);
         border: 1px solid var(--border-soft);
         padding: 0 12px;
@@ -118,21 +120,16 @@
           box-shadow 120ms ease;
       }
 
-      /* hover opacity 6% */
       .input-shell:hover {
         background-color: rgba(255, 255, 255, 0.06);
       }
 
-      /* focus (password focus как в макете — синий бордер) */
       .input-shell:focus-within {
         background-color: var(--card-bg);
         border-color: var(--accent);
         box-shadow: 0 0 0 1px var(--accent) inset;
       }
 
-      /* floating label:
-         - по умолчанию отцентрирован (вертикально)
-         - при фокусе или когда есть значение — поднимается вверх */
       .input-label {
         position: absolute;
         left: 12px;
@@ -140,10 +137,10 @@
         transform: translateY(-50%);
         display: inline-flex;
         align-items: center;
-        justify-content: center; /* отцентрировать label+* относительно друг друга */
+        justify-content: center;
         gap: 6px;
         pointer-events: none;
-        transition: top 120ms ease, transform 120ms ease, opacity 120ms ease;
+        transition: top 120ms ease, transform 120ms ease;
       }
 
       .input-shell.is-active .input-label {
@@ -176,12 +173,17 @@
         color: var(--text-primary);
         font-family: var(--font-family-main);
         font-weight: 700;
-        font-size: 16px;
+        font-size: var(--value-size-default);
         line-height: 1.2;
-        padding: 18px 40px 8px 0; /* место под label сверху + место справа под иконку */
+        padding: 18px 40px 8px 0;
+        transition: font-size 120ms ease;
       }
 
-      /* suffix buttons positioning */
+      /* focus: текст уменьшить до 12px */
+      .input-shell:focus-within .input-control {
+        font-size: var(--value-size-focus);
+      }
+
       .suffix {
         position: absolute;
         right: 12px;
@@ -192,7 +194,6 @@
         justify-content: center;
       }
 
-      /* clear button (X) */
       .clear-btn {
         width: 32px;
         height: 32px;
@@ -230,12 +231,12 @@
         width: 20px;
         height: 20px;
         display: block;
-        opacity: 0.8; /* fffff + 80% */
+        opacity: 0.8;
         transition: opacity 120ms ease;
       }
 
       .icon-btn:hover .icon-img {
-        opacity: 1; /* hover 100% */
+        opacity: 1;
       }
 
       .login-button {
