@@ -18,13 +18,14 @@
         --page-bg: #221c38;
 
         --card-bg: rgba(255, 255, 255, 0.03);
+        --card-bg-hover: rgba(255, 255, 255, 0.06); /* 6% */
         --card-width: 335px;
 
         --text-primary: #ffffff;
         --text-muted: rgba(255, 255, 255, 0.4);
         --text-logo: rgba(255, 255, 255, 0.6);
 
-        --accent: #3d5ddf;
+        --accent: #3d5ddf; /* focus border */
         --danger: #e83337;
 
         --border-soft: rgba(255, 255, 255, 0.03);
@@ -39,13 +40,7 @@
         --h4-font-size: 24px;
         --h4-line-height: 1.2;
 
-        --label-font-size: 16px;
-        --label-line-height: 1.2;
-
-        --value-font-size: 32px;
-        --value-line-height: 1.05;
-
-        --input-height: 86px; /* как на скриншоте: 2 строки внутри */
+        --input-height: 48px; /* фикс 48px */
       }
 
       * {
@@ -119,30 +114,28 @@
         gap: 12px;
       }
 
-      .field {
-        width: 100%;
-      }
-
-      /* Input shell (лейбл + значение внутри) */
+      /* ====== Input (label inside) ====== */
       .input-shell {
         height: var(--input-height);
         border-radius: var(--radius-input);
         background-color: var(--card-bg);
         border: 1px solid var(--border-soft);
-        padding: 12px 12px;
+        padding: 6px 12px; /* позволяет уместить label + value */
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         transition: background-color 120ms ease, border-color 120ms ease,
           box-shadow 120ms ease;
       }
 
-      /* Hover: opacity 6% */
+      /* hover opacity 6% */
       .input-shell:hover {
-        background-color: rgba(255, 255, 255, 0.06);
+        background-color: var(--card-bg-hover);
       }
 
+      /* focus как в Figma (синий бордер) */
       .input-shell:focus-within {
+        background-color: var(--card-bg);
         border-color: var(--accent);
         box-shadow: 0 0 0 1px var(--accent) inset;
       }
@@ -152,19 +145,20 @@
         min-width: 0;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 2px;
       }
 
       .input-label {
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        min-height: 16px;
       }
 
       .input-label-text {
         font-weight: 700;
-        font-size: var(--label-font-size);
-        line-height: var(--label-line-height);
+        font-size: 16px;
+        line-height: 1;
         text-transform: uppercase;
         color: var(--text-muted);
       }
@@ -176,8 +170,7 @@
       .input-asterisk {
         font-weight: 700;
         font-size: 12px;
-        line-height: 1.2;
-        text-transform: uppercase;
+        line-height: 1;
         color: var(--danger);
       }
 
@@ -189,37 +182,25 @@
         color: var(--text-primary);
         font-family: var(--font-family-main);
         font-weight: 700;
-        font-size: var(--value-font-size);
-        line-height: var(--value-line-height);
+        font-size: 24px; /* визуально близко к скрину, но влезает в 48px */
+        line-height: 1;
         padding: 0;
         margin: 0;
       }
 
-      .input-control::placeholder {
-        color: rgba(255, 255, 255, 0.2);
-      }
-
       .suffix-btn {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
         border: none;
+        padding: 0;
         background: rgba(255, 255, 255, 0.06);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        padding: 0;
-        transition: filter 120ms ease, background-color 120ms ease;
         flex: 0 0 auto;
-      }
-
-      .suffix-btn:hover {
-        filter: brightness(1.08);
-      }
-
-      .suffix-btn:active {
-        filter: brightness(0.96);
+        transition: filter 120ms ease, background-color 120ms ease;
       }
 
       .suffix-btn--ghost {
@@ -230,18 +211,28 @@
         background: rgba(255, 255, 255, 0.06);
       }
 
+      .suffix-btn:hover {
+        filter: brightness(1.06);
+      }
+
+      .suffix-btn:active {
+        filter: brightness(0.96);
+      }
+
       .suffix-btn img {
         width: 20px;
         height: 20px;
         display: block;
       }
 
+      /* X (fallback svg) */
       .suffix-btn svg {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         display: block;
       }
 
+      /* ====== Button ====== */
       .login-button {
         margin-top: 4px;
         width: 100%;
@@ -277,96 +268,93 @@
         <div class="login-frame">
           <header class="login-logo">
             <img src="assets/LOGO.svg" alt="Logo" class="login-logo-img" />
-            <span class="login-logo-title">ADMIN PANEL</span>
+            
           </header>
 
           <h1 class="login-title">LOG IN</h1>
 
           <form class="login-form" @submit.prevent="onSubmit">
             <!-- EMAIL -->
-            <div class="field">
-              <div class="input-shell">
-                <div class="input-content">
-                  <div class="input-label">
-                    <span class="input-label-text">EMAIL</span>
-                    <span class="input-asterisk">*</span>
-                  </div>
-
-                  <input
-                    v-model="email"
-                    type="email"
-                    class="input-control"
-                    autocomplete="username"
-                    spellcheck="false"
-                    required
-                  />
+            <div class="input-shell">
+              <div class="input-content">
+                <div class="input-label">
+                  <span class="input-label-text">EMAIL</span>
+                  <span class="input-asterisk">*</span>
                 </div>
 
-                <!-- Clear (X) как в макете -->
-                <button
-                  v-if="email"
-                  type="button"
-                  class="suffix-btn"
-                  @click="clearEmail"
-                  aria-label="Clear email"
-                  title="Clear"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M6.5 6.5l11 11M17.5 6.5l-11 11"
-                      stroke="white"
-                      stroke-opacity="0.95"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-                </button>
+                <input
+                  v-model="email"
+                  type="email"
+                  class="input-control"
+                  autocomplete="username"
+                  spellcheck="false"
+                  required
+                />
               </div>
+
+              <!-- Clear (X) -->
+              <button
+                v-if="email"
+                type="button"
+                class="suffix-btn"
+                @click="clearEmail"
+                aria-label="Clear email"
+                title="Clear"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6.5 6.5l11 11M17.5 6.5l-11 11"
+                    stroke="white"
+                    stroke-opacity="0.95"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
             </div>
 
             <!-- PASSWORD -->
-            <div class="field">
-              <div class="input-shell">
-                <div class="input-content">
-                  <div class="input-label">
-                    <span class="input-label-text input-label-text--password"
-                      >Password</span
-                    >
-                    <span class="input-asterisk">*</span>
-                  </div>
-
-                  <input
-                    v-model="password"
-                    :type="showPassword ? 'text' : 'password'"
-                    class="input-control"
-                    autocomplete="current-password"
-                    required
-                  />
+            <div class="input-shell">
+              <div class="input-content">
+                <div class="input-label">
+                  <span class="input-label-text input-label-text--password"
+                    >Password</span
+                  >
+                  <span class="input-asterisk">*</span>
                 </div>
 
-                <button
-                  type="button"
-                  class="suffix-btn suffix-btn--ghost"
-                  @click="togglePassword"
-                  :aria-label="showPassword ? 'Hide password' : 'Show password'"
-                  :title="showPassword ? 'Hide password' : 'Show password'"
-                >
-                  <img
-                    v-if="!showPassword"
-                    src="assets/eye-close.svg"
-                    alt="hide password"
-                  />
-                  <img
-                    v-else
-                    src="assets/eye-open.svg"
-                    alt="show password"
-                  />
-                </button>
+                <input
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  class="input-control"
+                  autocomplete="current-password"
+                  required
+                />
               </div>
+
+              <!-- Eye close / open из assets -->
+              <button
+                type="button"
+                class="suffix-btn suffix-btn--ghost"
+                @click="togglePassword"
+                :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                :title="showPassword ? 'Hide password' : 'Show password'"
+              >
+                <img
+                  v-if="!showPassword"
+                  src="assets/eye-close.svg"
+                  alt="hide password"
+                />
+                <img
+                  v-else
+                  src="assets/eye-open.svg"
+                  alt="show password"
+                />
+              </button>
             </div>
 
             <button type="submit" class="login-button">Login</button>
