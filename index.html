@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet Transactions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Base font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN --> 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sofia: ['"Sofia Sans Condensed"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            page: '#221C38',
+            sidebar: '#1E1934',
+            main: '#221C38',
+            surface: 'rgba(255,255,255,0.03)',
+            borderSoft: 'rgba(255,255,255,0.03)',
+            borderCard: 'rgba(255,255,255,0.08)',
+            primary: '#3D5DDF',
+            primarySoft: 'rgba(61,93,223,0.20)',
+            textMain: '#FFFFFF',
+            textMuted: 'rgba(255,255,255,0.8)',
+            textSoft: 'rgba(255,255,255,0.6)',
+          },
+          boxShadow: {
+            card: '0 18px 45px rgba(0,0,0,0.65)',
+          },
+          borderRadius: {
+            card: '24px',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: "Sofia Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #221C38;
+      color: #FFFFFF;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body class="h-full bg-page">
+<div class="min-h-screen flex text-textMain">
+
+  <!-- SIDEBAR -->
+  <aside
+    class="hidden md:flex flex-col shrink-0"
+    style="width: 280px; min-height: 1280px; background-color:#1E1934;">
+    <!-- Logo -->
+    <div class="px-6 pt-6 pb-4 border-b border-borderSoft">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_0_4px_rgba(61,93,223,0.45)]">
+          <span class="text-xs font-semibold tracking-[0.18em] uppercase">MC</span>
+        </div>
+        <div class="leading-tight">
+          <div class="text-base font-semibold tracking-[0.26em] uppercase text-textMuted">
+            MAINCARD
+          </div>
+          <div class="text-xs tracking-[0.20em] uppercase text-textSoft">
+            ADMIN PANEL
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL CASINOS dropdown -->
+    <div class="px-6 pt-5">
+      <button
+        id="all-casinos-toggle"
+        class="w-full flex items-center justify-between h-11 px-4 rounded-[10px] bg-surface border border-borderSoft text-sm font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+        <span>ALL CASINOS</span>
+        <svg class="w-4 h-4 text-textSoft" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div
+        id="all-casinos-menu"
+        class="mt-2 w-full rounded-[10px] bg-surface border border-borderSoft shadow-card hidden">
+        <button
+          class="w-full text-left px-4 py-2.5 text-sm tracking-[0.16em] uppercase text-textMuted hover:bg-[rgba(255,255,255,0.06)]">
+          All casinos
+        </button>
+        <button
+          class="w-full text-left px-4 py-2.5 text-sm tracking-[0.16em] uppercase text-textMuted hover:bg-[rgba(255,255,255,0.06)]">
+          Favorites
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar nav -->
+    <nav class="mt-6 px-3 space-y-1 text-sm font-semibold tracking-[0.18em] uppercase text-textMuted">
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] hover:bg-[rgba(255,255,255,0.06)] transition">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Revenue icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M5 19V10M10 19V5M15 19V12M19 19V8"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>REVENUE</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] hover:bg-[rgba(255,255,255,0.06)] transition">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Players icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M16 21V19C16 16.79 14.21 15 12 15H7C4.79 15 3 16.79 3 19V21"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 11C11.657 11 13 9.657 13 8C13 6.343 11.657 5 10 5C8.343 5 7 6.343 7 8C7 9.657 8.343 11 10 11Z"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>PLAYERS</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] hover:bg-[rgba(255,255,255,0.06)] transition">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Transactions icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M5 5H19V9H5V5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M5 15H19V19H5V15Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>TRANSACTIONS</span>
+      </button>
+
+      <!-- Active item -->
+      <button
+        class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] border border-primary bg-primarySoft text-textMain shadow-[0_0_0_1px_rgba(61,93,223,0.6)]">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Wallet icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="7" width="16" height="11" rx="2.5"
+                  stroke="currentColor" stroke-width="1.6"/>
+            <path d="M15.5 12.5H17" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>WALLET TRANSACTION</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] text-textSoft/50 cursor-not-allowed">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Manage icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M12 8V12L14.5 14.5"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="7"
+                    stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+        </span>
+        <span>MANAGE</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] text-textSoft/50 cursor-not-allowed">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- CRM icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="5" width="16" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+            <rect x="4" y="13" width="8" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+            <rect x="14" y="13" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+        </span>
+        <span>CRM</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] text-textSoft/50 cursor-not-allowed">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Team icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M6 21V19C6 16.79 7.79 15 10 15H14C16.21 15 18 16.79 18 19V21"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="9" r="3"
+                    stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+        </span>
+        <span>TEAM</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] text-textSoft/50 cursor-not-allowed">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Compliance icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path d="M5 21V9L12 3L19 9V21"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 21V14H15V21" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>COMPLIANCE</span>
+      </button>
+
+      <button class="w-full flex items-center gap-3 px-3.5 h-9 rounded-[10px] text-textSoft/50 cursor-not-allowed">
+        <span class="w-4 h-4 inline-flex items-center justify-center">
+          <!-- Support icon -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9"
+                    stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 17V17.1" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round"/>
+            <path d="M12 13C12 11 15 11 15 9.2C15 7.985 13.993 7 12.7 7C11.407 7 10.4 7.985 10.4 9.2"
+                  stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>SUPPORT</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="flex-1 flex flex-col bg-main">
+
+    <!-- HEADER -->
+    <header class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 border-b border-borderSoft bg-sidebar">
+      <!-- Breadcrumbs -->
+      <div class="flex flex-col gap-1">
+        <nav class="flex items-center text-xs text-textSoft gap-1">
+          <span class="inline-flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none">
+              <path d="M3 10L10 3L17 10" stroke="currentColor" stroke-width="1.3"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 10V16H13V10" stroke="currentColor" stroke-width="1.3"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Home</span>
+          </span>
+          <span class="text-textSoft/60">/</span>
+          <span>All casinos</span>
+          <span class="text-textSoft/60">/</span>
+          <span class="text-textMuted">Wallet transaction</span>
+        </nav>
+
+        <h1 class="text-2xl sm:text-[26px] md:text-[28px] lg:text-[30px] leading-tight font-semibold tracking-[0.24em] uppercase">
+          Wallet Transactions
+        </h1>
+      </div>
+
+      <!-- User -->
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-surface border border-borderSoft flex items-center justify-center">
+            <!-- Person icon -->
+            <svg class="w-4.5 h-4.5 text-textSoft" viewBox="0 0 24 24" fill="none">
+              <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 20C6 17.7909 7.79086 16 10 16H14C16.2091 16 18 17.7909 18 20"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="text-xs font-semibold text-textMuted">email@example.com</span>
+          </div>
+          <svg class="w-4 h-4 text-textSoft" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- Title + Period + Date controls -->
+        <section class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div class="space-y-1">
+            <div class="text-base text-textMuted">
+              Period: <span class="text-textMain">24 August 2025 – 24 August 2026</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              data-period-tab="LIFETIME"
+              class="period-tab inline-flex items-center justify-center h-9 px-4 rounded-full bg-primarySoft border border-primary text-xs font-semibold tracking-[0.18em] uppercase">
+              LIFETIME
+            </button>
+            <button
+              data-period-tab="TODAY"
+              class="period-tab inline-flex items-center justify-center h-9 px-4 rounded-full bg-surface border border-borderSoft text-xs font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              TODAY
+            </button>
+            <button
+              data-period-tab="YESTERDAY"
+              class="period-tab inline-flex items-center justify-center h-9 px-4 rounded-full bg-surface border border-borderSoft text-xs font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              YESTERDAY
+            </button>
+            <button
+              data-period-tab="LAST 7 DAYS"
+              class="period-tab inline-flex items-center justify-center h-9 px-4 rounded-full bg-surface border border-borderSoft text-xs font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              LAST 7 DAYS
+            </button>
+            <button
+              data-period-tab="LAST 30 DAYS"
+              class="period-tab inline-flex items-center justify-center h-9 px-4 rounded-full bg-surface border border-borderSoft text-xs font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              LAST 30 DAYS
+            </button>
+          </div>
+        </section>
+
+        <!-- Stat cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <article class="bg-surface rounded-[16px] border border-borderCard px-6 py-4 flex flex-col justify-between min-h-[96px]">
+            <div class="text-sm font-semibold uppercase text-textSoft mb-2 tracking-[0.16em]">
+              DEPOSITS
+            </div>
+            <div class="text-2xl leading-none font-semibold">0</div>
+          </article>
+          <article class="bg-surface rounded-[16px] border border-borderCard px-6 py-4 flex flex-col justify-between min-h-[96px]">
+            <div class="text-sm font-semibold uppercase text-textSoft mb-2 tracking-[0.16em]">
+              WITHDRAW
+            </div>
+            <div class="text-2xl leading-none font-semibold">0</div>
+          </article>
+          <article class="bg-surface rounded-[16px] border border-borderCard px-6 py-4 flex flex-col justify-between min-h-[96px]">
+            <div class="text-sm font-semibold uppercase text-textSoft mb-2 tracking-[0.16em]">
+              BONUSES
+            </div>
+            <div class="text-2xl leading-none font-semibold">0</div>
+          </article>
+        </section>
+
+        <!-- Search + filters + By Name -->
+        <section class="space-y-4">
+          <!-- Search row -->
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div class="flex-1 max-w-xl">
+              <div
+                class="flex items-center gap-2 px-4 h-11 rounded-[10px] bg-surface border border-borderSoft focus-within:border-primary focus-within:ring-1 focus-within:ring-primarySoft transition">
+                <svg class="w-4.5 h-4.5 text-textSoft" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M16 16L20 20" stroke="currentColor" stroke-width="1.6"
+                        stroke-linecap="round"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="flex-1 bg-transparent text-base leading-none text-textMain placeholder:text-textSoft focus:outline-none"/>
+              </div>
+            </div>
+
+            <!-- By Name dropdown -->
+            <div class="mt-1 md:mt-0">
+              <button
+                id="sort-toggle"
+                class="inline-flex items-center justify-between min-w-[150px] px-4 h-10 rounded-[10px] bg-surface border border-borderSoft text-xs font-semibold tracking-[0.18em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+                <span id="sort-label">By Name</span>
+                <svg class="w-4 h-4 text-textSoft" viewBox="0 0 20 20" fill="none">
+                  <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div
+                id="sort-menu"
+                class="mt-1 rounded-[10px] bg-surface border border-borderSoft shadow-card hidden">
+                <button
+                  data-sort-option="By Name"
+                  class="w-full text-left px-4 py-2 text-xs tracking-[0.16em] uppercase text-textMuted hover:bg-[rgba(255,255,255,0.06)]">
+                  By Name
+                </button>
+                <button
+                  data-sort-option="By Date"
+                  class="w-full text-left px-4 py-2 text-xs tracking-[0.16em] uppercase text-textMuted hover:bg-[rgba(255,255,255,0.06)]">
+                  By Date
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters row -->
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              id="filter-type-toggle"
+              class="inline-flex items-center justify-between min-w-[200px] px-4 h-10 rounded-[10px] bg-surface border border-borderSoft text-xs font-semibold tracking-[0.16em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              <span>Deposit+Withdraw</span>
+              <svg class="w-4 h-4 text-textSoft" viewBox="0 0 20 20" fill="none">
+                <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <button
+              id="filter-currency-toggle"
+              class="inline-flex items-center justify-between min-w-[180px] px-4 h-10 rounded-[10px] bg-surface border border-borderSoft text-xs font-semibold tracking-[0.16em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              <span>Fiat+Crypto</span>
+              <svg class="w-4 h-4 text-textSoft" viewBox="0 0 20 20" fill="none">
+                <path d="M5 7L10 12L15 7" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <button
+              class="inline-flex items-center justify-center px-4 h-10 rounded-[10px] bg-surface border border-borderSoft text-xs font-semibold tracking-[0.16em] uppercase text-textMuted hover:border-primary hover:bg-primarySoft/40 transition">
+              Bonuses
+            </button>
+          </div>
+        </section>
+
+        <!-- Empty state -->
+        <section class="bg-[rgba(255,255,255,0.01)] rounded-card border border-borderSoft shadow-card">
+          <div class="min-h-[320px] md:min-h-[380px] lg:min-h-[420px] flex items-center justify-center">
+            <div class="flex flex-col items-center gap-4 text-center px-6">
+              <!-- Wallet illustration -->
+              <div
+                class="w-[96px] h-[96px] rounded-[28px] border border-borderSoft bg-[rgba(0,0,0,0.18)] flex items-center justify-center relative">
+                <div
+                  class="w-[70px] h-[52px] rounded-[18px] border border-borderSoft bg-surface flex items-center justify-center">
+                  <svg class="w-9 h-9 text-textSoft" viewBox="0 0 24 24" fill="none">
+                    <rect x="4" y="7" width="16" height="10.5" rx="2.5"
+                          stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M15.5 12.25H17" stroke="currentColor" stroke-width="1.7"
+                          stroke-linecap="round"/>
+                    <path d="M8 7V6.5C8 5.119 9.119 4 10.5 4H17"
+                          stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="absolute w-1.5 h-1.5 rounded-full bg-borderSoft -top-1 left-4"></div>
+                <div class="absolute w-1.5 h-1.5 rounded-full bg-borderSoft top-3 right-3"></div>
+                <div class="absolute w-1.5 h-1.5 rounded-full bg-borderSoft bottom-3 left-3"></div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-[14px] font-semibold text-textMuted">
+                  No transactions yet
+                </div>
+                <p class="text-sm text-textSoft max-w-sm">
+                  Once you receive your first deposit or withdraw, wallet transactions will appear here.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Interactivity scripts -->
+<script>
+  function setupOutsideClick(trigger, menu) {
+    document.addEventListener('click', (e) => {
+      if (!trigger || !menu) return;
+      if (trigger.contains(e.target)) return;
+      if (!menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+  }
+
+  // ALL CASINOS dropdown
+  const casinosToggle = document.getElementById('all-casinos-toggle');
+  const casinosMenu = document.getElementById('all-casinos-menu');
+  if (casinosToggle && casinosMenu) {
+    casinosToggle.addEventListener('click', () => {
+      casinosMenu.classList.toggle('hidden');
+    });
+    setupOutsideClick(casinosToggle, casinosMenu);
+  }
+
+  // Period tabs
+  const periodTabs = document.querySelectorAll('.period-tab');
+  periodTabs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      periodTabs.forEach((b) => {
+        b.classList.remove('bg-primarySoft', 'border-primary', 'text-textMain');
+        b.classList.add('bg-surface', 'border-borderSoft', 'text-textMuted');
+      });
+      btn.classList.add('bg-primarySoft', 'border-primary', 'text-textMain');
+      btn.classList.remove('bg-surface', 'border-borderSoft', 'text-textMuted');
+    });
+  });
+
+  // BY NAME dropdown
+  const sortToggle = document.getElementById('sort-toggle');
+  const sortMenu = document.getElementById('sort-menu');
+  const sortLabel = document.getElementById('sort-label');
+  if (sortToggle && sortMenu && sortLabel) {
+    sortToggle.addEventListener('click', () => {
+      sortMenu.classList.toggle('hidden');
+    });
+    sortMenu.querySelectorAll('[data-sort-option]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        sortLabel.textContent = btn.dataset.sortOption;
+        sortMenu.classList.add('hidden');
+      });
+    });
+    setupOutsideClick(sortToggle, sortMenu);
+  }
+
+  // Simple visual toggles for filter buttons
+  function attachToggle(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', () => {
+      el.classList.toggle('border-primary');
+      el.classList.toggle('bg-primarySoft');
+    });
+  }
+  attachToggle('filter-type-toggle');
+  attachToggle('filter-currency-toggle');
+</script>
+</body>
+</html>
