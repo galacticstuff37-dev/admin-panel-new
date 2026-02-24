@@ -5,7 +5,6 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Шрифт Sofia Sans Condensed, как в макете -->
     <link
       href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@400;700&display=swap"
       rel="stylesheet"
@@ -17,12 +16,14 @@
     <style>
       :root {
         --page-bg: #221c38;
+
         --card-bg: rgba(255, 255, 255, 0.03);
         --card-width: 335px;
 
         --text-primary: #ffffff;
         --text-muted: rgba(255, 255, 255, 0.4);
         --text-logo: rgba(255, 255, 255, 0.6);
+
         --accent: #3d5ddf;
         --danger: #e83337;
 
@@ -37,9 +38,14 @@
 
         --h4-font-size: 24px;
         --h4-line-height: 1.2;
-        --normal-font-size: 16px;
-        --normal-line-height: 1.2;
-        --mini-font-size: 12px;
+
+        --label-font-size: 16px;
+        --label-line-height: 1.2;
+
+        --value-font-size: 32px;
+        --value-line-height: 1.05;
+
+        --input-height: 86px; /* как на скриншоте: 2 строки внутри */
       }
 
       * {
@@ -114,80 +120,125 @@
       }
 
       .field {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        width: 100%;
       }
 
-      .field-label {
+      /* Input shell (лейбл + значение внутри) */
+      .input-shell {
+        height: var(--input-height);
+        border-radius: var(--radius-input);
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-soft);
+        padding: 12px 12px;
         display: flex;
         align-items: center;
-        gap: 2px;
+        gap: 12px;
+        transition: background-color 120ms ease, border-color 120ms ease,
+          box-shadow 120ms ease;
       }
 
-      .field-label-text {
+      /* Hover: opacity 6% */
+      .input-shell:hover {
+        background-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .input-shell:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent) inset;
+      }
+
+      .input-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .input-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .input-label-text {
         font-weight: 700;
-        font-size: var(--normal-font-size);
-        line-height: var(--normal-line-height);
+        font-size: var(--label-font-size);
+        line-height: var(--label-line-height);
         text-transform: uppercase;
         color: var(--text-muted);
       }
 
-      .field-asterisk {
+      .input-label-text--password {
+        text-transform: none; /* Password как в макете */
+      }
+
+      .input-asterisk {
         font-weight: 700;
-        font-size: var(--mini-font-size);
+        font-size: 12px;
         line-height: 1.2;
         text-transform: uppercase;
         color: var(--danger);
       }
 
-      .field-input-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        padding: 0 12px;
-        height: 48px;
-        border-radius: var(--radius-input);
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-soft);
-      }
-
-      .field-input-wrapper--password {
-        justify-content: space-between;
-      }
-
-      .field-input {
-        flex: 1;
+      .input-control {
+        width: 100%;
         border: none;
         outline: none;
         background: transparent;
         color: var(--text-primary);
         font-family: var(--font-family-main);
-        font-size: var(--normal-font-size);
-        line-height: var(--normal-line-height);
-      }
-
-      .field-input::placeholder {
-        color: var(--text-muted);
-      }
-
-      .password-toggle {
-        width: 20px;
-        height: 20px;
-        border: none;
+        font-weight: 700;
+        font-size: var(--value-font-size);
+        line-height: var(--value-line-height);
         padding: 0;
-        margin-left: 8px;
-        border-radius: 999px;
-        background: transparent;
+        margin: 0;
+      }
+
+      .input-control::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      .suffix-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        border: none;
+        background: rgba(255, 255, 255, 0.06);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        padding: 0;
+        transition: filter 120ms ease, background-color 120ms ease;
+        flex: 0 0 auto;
       }
 
-      .password-toggle img {
+      .suffix-btn:hover {
+        filter: brightness(1.08);
+      }
+
+      .suffix-btn:active {
+        filter: brightness(0.96);
+      }
+
+      .suffix-btn--ghost {
+        background: transparent;
+      }
+
+      .suffix-btn--ghost:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .suffix-btn img {
         width: 20px;
         height: 20px;
+        display: block;
+      }
+
+      .suffix-btn svg {
+        width: 22px;
+        height: 22px;
         display: block;
       }
 
@@ -201,7 +252,7 @@
         color: var(--text-primary);
         font-family: var(--font-family-main);
         font-weight: 700;
-        font-size: var(--normal-font-size);
+        font-size: 16px;
         line-height: 1.1;
         text-transform: uppercase;
         display: flex;
@@ -219,73 +270,106 @@
       }
     </style>
   </head>
+
   <body>
     <div id="app">
       <div class="login-page">
         <div class="login-frame">
-          <!-- Логотип из assets/LOGO.svg -->
           <header class="login-logo">
             <img src="assets/LOGO.svg" alt="Logo" class="login-logo-img" />
-
+            <span class="login-logo-title">ADMIN PANEL</span>
           </header>
 
           <h1 class="login-title">LOG IN</h1>
 
           <form class="login-form" @submit.prevent="onSubmit">
+            <!-- EMAIL -->
             <div class="field">
-              <label class="field-label">
-                <span class="field-label-text">EMAIL</span>
-                <span class="field-asterisk">*</span>
-              </label>
-              <div class="field-input-wrapper">
-                <input
-                  v-model="email"
-                  type="email"
-                  class="field-input"
-                  required
-                />
+              <div class="input-shell">
+                <div class="input-content">
+                  <div class="input-label">
+                    <span class="input-label-text">EMAIL</span>
+                    <span class="input-asterisk">*</span>
+                  </div>
+
+                  <input
+                    v-model="email"
+                    type="email"
+                    class="input-control"
+                    autocomplete="username"
+                    spellcheck="false"
+                    required
+                  />
+                </div>
+
+                <!-- Clear (X) как в макете -->
+                <button
+                  v-if="email"
+                  type="button"
+                  class="suffix-btn"
+                  @click="clearEmail"
+                  aria-label="Clear email"
+                  title="Clear"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6.5 6.5l11 11M17.5 6.5l-11 11"
+                      stroke="white"
+                      stroke-opacity="0.95"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 
+            <!-- PASSWORD -->
             <div class="field">
-              <label class="field-label">
-                <span class="field-label-text">Password</span>
-                <span class="field-asterisk">*</span>
-              </label>
-              <div class="field-input-wrapper field-input-wrapper--password">
-                <input
-                  v-model="password"
-                  :type="showPassword ? 'text' : 'password'"
-                  class="field-input"
-                  required
-                />
+              <div class="input-shell">
+                <div class="input-content">
+                  <div class="input-label">
+                    <span class="input-label-text input-label-text--password"
+                      >Password</span
+                    >
+                    <span class="input-asterisk">*</span>
+                  </div>
 
-                <!-- Кнопка с иконками eye-close / eye-open из assets -->
+                  <input
+                    v-model="password"
+                    :type="showPassword ? 'text' : 'password'"
+                    class="input-control"
+                    autocomplete="current-password"
+                    required
+                  />
+                </div>
+
                 <button
                   type="button"
-                  class="password-toggle"
+                  class="suffix-btn suffix-btn--ghost"
                   @click="togglePassword"
-                  aria-label="Toggle password visibility"
+                  :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                  :title="showPassword ? 'Hide password' : 'Show password'"
                 >
-                  <!-- Eye close (по умолчанию, скрыт пароль) -->
                   <img
                     v-if="!showPassword"
                     src="assets/eye-close.svg"
-                    alt="Hide password"
+                    alt="hide password"
                   />
-                  <!-- Eye open (когда пароль показывается) -->
                   <img
                     v-else
                     src="assets/eye-open.svg"
-                    alt="Show password"
+                    alt="show password"
                   />
                 </button>
               </div>
             </div>
 
-            <button type="submit" class="login-button">
-              Login
-            </button>
+            <button type="submit" class="login-button">Login</button>
           </form>
         </div>
       </div>
@@ -304,6 +388,10 @@
             showPassword.value = !showPassword.value;
           };
 
+          const clearEmail = () => {
+            email.value = "";
+          };
+
           const onSubmit = () => {
             console.log("login", {
               email: email.value,
@@ -316,6 +404,7 @@
             password,
             showPassword,
             togglePassword,
+            clearEmail,
             onSubmit,
           };
         },
