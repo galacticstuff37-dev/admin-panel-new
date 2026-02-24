@@ -179,16 +179,16 @@
         margin-left: 8px;
         border-radius: 999px;
         background: transparent;
-        color: var(--text-primary);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
       }
 
-      .password-toggle svg {
+      .password-toggle img {
         width: 20px;
         height: 20px;
+        display: block;
       }
 
       .login-button {
@@ -223,8 +223,9 @@
     <div id="app">
       <div class="login-page">
         <div class="login-frame">
+          <!-- Логотип из assets/LOGO.svg -->
           <header class="login-logo">
-            <img src="assets/logo.svg" alt="Logo" class="login-logo-img" />
+            <img src="assets/LOGO.svg" alt="Logo" class="login-logo-img" />
             <span class="login-logo-title">ADMIN PANEL</span>
           </header>
 
@@ -258,55 +259,26 @@
                   class="field-input"
                   required
                 />
+
+                <!-- Кнопка с иконками eye-close / eye-open из assets -->
                 <button
                   type="button"
                   class="password-toggle"
                   @click="togglePassword"
                   aria-label="Toggle password visibility"
                 >
-                  <!-- Eye close (по умолчанию) -->
-                  <svg
+                  <!-- Eye close (по умолчанию, скрыт пароль) -->
+                  <img
                     v-if="!showPassword"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 12C4.5 8.5 7.5 6 12 6c4.5 0 7.5 2.5 9 6-1.5 3.5-4.5 6-9 6-4.5 0-7.5-2.5-9-6z"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="M9 9l6 6M15 9l-6 6"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-
+                    src="assets/eye-close.svg"
+                    alt="Hide password"
+                  />
                   <!-- Eye open (когда пароль показывается) -->
-                  <svg
+                  <img
                     v-else
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 12C4.5 8.5 7.5 6 12 6c4.5 0 7.5 2.5 9 6-1.5 3.5-4.5 6-9 6-4.5 0-7.5-2.5-9-6z"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="3"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                  </svg>
+                    src="assets/eye-open.svg"
+                    alt="Show password"
+                  />
                 </button>
               </div>
             </div>
