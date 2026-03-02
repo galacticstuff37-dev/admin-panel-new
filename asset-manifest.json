@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/admin-panel-new/static/css/main.72d4393f.css",
-    "main.js": "/admin-panel-new/static/js/main.214b759f.js",
+    "main.css": "/admin-panel-new/static/css/main.5538cffb.css",
+    "main.js": "/admin-panel-new/static/js/main.9f13204e.js",
     "static/js/453.44eb11f3.chunk.js": "/admin-panel-new/static/js/453.44eb11f3.chunk.js",
     "static/media/Illustration.svg": "/admin-panel-new/static/media/Illustration.dcad4d9567fdc75f95312701db84dd80.svg",
     "index.html": "/admin-panel-new/index.html",
-    "main.72d4393f.css.map": "/admin-panel-new/static/css/main.72d4393f.css.map",
-    "main.214b759f.js.map": "/admin-panel-new/static/js/main.214b759f.js.map",
+    "main.5538cffb.css.map": "/admin-panel-new/static/css/main.5538cffb.css.map",
+    "main.9f13204e.js.map": "/admin-panel-new/static/js/main.9f13204e.js.map",
     "453.44eb11f3.chunk.js.map": "/admin-panel-new/static/js/453.44eb11f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.72d4393f.css",
-    "static/js/main.214b759f.js"
+    "static/css/main.5538cffb.css",
+    "static/js/main.9f13204e.js"
   ]
 }
