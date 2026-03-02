@@ -40,7 +40,7 @@ export function WalletTransactions() {
         aria-hidden
       />
       <div className={`lg:relative lg:block fixed inset-y-0 left-0 z-10 ${sidebarOpen ? 'block' : 'hidden'}`}>
-        <Sidebar onClose={() => setSidebarOpen(false)} />
+        <Sidebar onClose={() => setSidebarOpen(false)} activeMenuId="wallet-transaction" />
       </div>
 
       <main className="flex flex-1 flex-col gap-12 h-full min-h-0 min-w-0 pb-16 w-full pt-14 lg:pt-0">

@@ -6,7 +6,7 @@ const MENU_ITEMS: SidebarMenuItem[] = [
   { id: 'revenue', label: 'REVENUE' },
   { id: 'players', label: 'PLAYERS' },
   { id: 'transactions', label: 'TRANSACTIONS' },
-  { id: 'wallet-transaction', label: 'WALLET TRANSACTION', active: true },
+  { id: 'wallet-transaction', label: 'WALLET TRANSACTION' },
   { id: 'manage', label: 'MANAGE' },
   { id: 'crm', label: 'CRM' },
   { id: 'team', label: 'TEAM' },
@@ -16,9 +16,11 @@ const MENU_ITEMS: SidebarMenuItem[] = [
 
 type SidebarProps = {
   onClose?: () => void;
+  /** Id of the active menu item (e.g. 'players', 'wallet-transaction'). Default: wallet-transaction */
+  activeMenuId?: string;
 };
 
-export function Sidebar({ onClose }: SidebarProps) {
+export function Sidebar({ onClose, activeMenuId = 'wallet-transaction' }: SidebarProps) {
   return (
     <aside
       className="bg-sidebar-bg relative flex flex-col h-full overflow-hidden p-6 shrink-0 w-[280px] font-sofia font-bold"
@@ -58,7 +60,7 @@ export function Sidebar({ onClose }: SidebarProps) {
               key={item.id}
               type="button"
               className={`flex gap-3 h-12 items-center px-3 py-2 rounded-basic w-full shrink-0 transition-colors ${
-                item.active
+                activeMenuId === item.id
                   ? 'bg-primary-20 border border-primary text-white'
                   : 'border border-transparent text-white-80 hover:bg-white-3'
               }`}
