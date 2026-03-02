@@ -1,5 +1,6 @@
 import React from 'react';
 import type { SidebarMenuItem } from '../../types/admin';
+import { MENU_ICONS, IconChevronDown, IconClose } from './icons';
 
 const MENU_ITEMS: SidebarMenuItem[] = [
   { id: 'revenue', label: 'REVENUE' },
@@ -12,22 +13,6 @@ const MENU_ITEMS: SidebarMenuItem[] = [
   { id: 'compliance', label: 'COMPLIANCE' },
   { id: 'support', label: 'SUPPORT' },
 ];
-
-function MenuIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path d="M2.5 5H17.5M2.5 10H17.5M2.5 15H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ChevronDown({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 type SidebarProps = {
   onClose?: () => void;
@@ -46,9 +31,7 @@ export function Sidebar({ onClose }: SidebarProps) {
           className="lg:hidden absolute top-4 right-4 text-white p-1 rounded"
           aria-label="Close menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
-          </svg>
+          <IconClose />
         </button>
       )}
       <div className="flex flex-col items-start pb-8 w-full shrink-0">
@@ -64,11 +47,13 @@ export function Sidebar({ onClose }: SidebarProps) {
       <div className="flex flex-col gap-5 items-end w-full shrink-0 flex-1 min-h-0">
         <div className="bg-white-3 border border-white-3 flex gap-0.5 h-12 items-center px-3 rounded-basic w-full shrink-0">
           <span className="flex-1 font-sofia font-bold text-base text-white uppercase">ALL CASINOS</span>
-          <ChevronDown className="shrink-0 w-6 h-6 text-white-80" />
+          <IconChevronDown className="shrink-0 w-6 h-6 text-white-80" />
         </div>
 
         <nav className="flex flex-col gap-0.5 items-start w-full shrink-0">
-          {MENU_ITEMS.map((item) => (
+          {MENU_ITEMS.map((item) => {
+            const Icon = MENU_ICONS[item.id] ?? MENU_ICONS.revenue;
+            return (
             <button
               key={item.id}
               type="button"
@@ -78,12 +63,13 @@ export function Sidebar({ onClose }: SidebarProps) {
                   : 'border border-transparent text-white-80 hover:bg-white-3'
               }`}
             >
-              <MenuIcon className="shrink-0 w-5 h-5 text-current" />
+              <Icon className="shrink-0 w-5 h-5 text-current" />
               <span className="font-sofia font-bold text-base leading-normal uppercase whitespace-nowrap">
                 {item.label}
               </span>
             </button>
-          ))}
+            );
+          })}
         </nav>
       </div>
     </aside>
