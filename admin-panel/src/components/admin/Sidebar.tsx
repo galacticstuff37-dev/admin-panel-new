@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import type { SidebarMenuItem } from '../../types/admin';
 import { MENU_ICONS, IconChevronDown, IconClose } from './icons';
 
@@ -55,21 +56,31 @@ export function Sidebar({ onClose, activeMenuId = 'wallet-transaction' }: Sideba
         <nav className="flex flex-col gap-0.5 items-start w-full shrink-0">
           {MENU_ITEMS.map((item) => {
             const Icon = MENU_ICONS[item.id] ?? MENU_ICONS.revenue;
+            const isActive = activeMenuId === item.id;
+            const linkClass = `flex gap-3 h-12 items-center px-3 py-2 rounded-basic w-full shrink-0 transition-colors ${
+              isActive ? 'bg-primary-20 border border-primary text-white' : 'border border-transparent text-white-80 hover:bg-white-3'
+            }`;
+            if (item.id === 'players') {
+              return (
+                <NavLink key={item.id} to="/players" className={linkClass}>
+                  <Icon className="shrink-0 w-5 h-5 text-current" />
+                  <span className="font-sofia font-bold text-base leading-normal uppercase whitespace-nowrap">{item.label}</span>
+                </NavLink>
+              );
+            }
+            if (item.id === 'wallet-transaction') {
+              return (
+                <NavLink key={item.id} to="/wallet-transactions" className={linkClass}>
+                  <Icon className="shrink-0 w-5 h-5 text-current" />
+                  <span className="font-sofia font-bold text-base leading-normal uppercase whitespace-nowrap">{item.label}</span>
+                </NavLink>
+              );
+            }
             return (
-            <button
-              key={item.id}
-              type="button"
-              className={`flex gap-3 h-12 items-center px-3 py-2 rounded-basic w-full shrink-0 transition-colors ${
-                activeMenuId === item.id
-                  ? 'bg-primary-20 border border-primary text-white'
-                  : 'border border-transparent text-white-80 hover:bg-white-3'
-              }`}
-            >
-              <Icon className="shrink-0 w-5 h-5 text-current" />
-              <span className="font-sofia font-bold text-base leading-normal uppercase whitespace-nowrap">
-                {item.label}
-              </span>
-            </button>
+              <button key={item.id} type="button" className={linkClass}>
+                <Icon className="shrink-0 w-5 h-5 text-current" />
+                <span className="font-sofia font-bold text-base leading-normal uppercase whitespace-nowrap">{item.label}</span>
+              </button>
             );
           })}
         </nav>

@@ -8,6 +8,7 @@ type UserHeaderProps = {
   userId: string;
   activeTab: 'summary' | 'transactions' | 'wallet-transaction';
   onTabChange: (tab: 'summary' | 'transactions' | 'wallet-transaction') => void;
+  onBack?: () => void;
 };
 
 function IconArrowLeft({ className }: { className?: string }) {
@@ -27,7 +28,7 @@ function IconRefresh({ className }: { className?: string }) {
   );
 }
 
-export function UserHeader({ email, userId, activeTab, onTabChange }: UserHeaderProps) {
+export function UserHeader({ email, userId, activeTab, onTabChange, onBack }: UserHeaderProps) {
   const tabs = [
     { id: 'summary' as const, label: 'SUMMARY' },
     { id: 'transactions' as const, label: 'TRANSACTIONS' },
@@ -37,7 +38,12 @@ export function UserHeader({ email, userId, activeTab, onTabChange }: UserHeader
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-wrap gap-4 h-15 items-center w-full">
-        <button type="button" className="flex gap-2.5 items-center text-white hover:opacity-80 transition-opacity" aria-label="Back">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex gap-2.5 items-center text-white hover:opacity-80 transition-opacity"
+          aria-label="Back"
+        >
           <IconArrowLeft className="shrink-0 w-6 h-6" />
           <h1 className="font-sofia font-bold text-h2 text-white uppercase leading-none flex-1 min-w-0 truncate">
             {email}
